@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#login-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            var formData = $(this).serialize();
+            
+            // Show loading state
+            $('#response').html('<p>Processing...</p>');
+            
+            // Send AJAX request
+            $.ajax({
+                type: 'POST',
+                url: 'handlers/login_debug.php',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    var html = '<div class="success">' + 
+                        '<p><strong>Success:</strong> ' + JSON.stringify(response) + '</p>' +
+                        '</div>';
+                    $('#response').html(html);
+                },
+                error: function(xhr, status, error) {
+                    var errorMsg = xhr.responseJSON && xhr.responseJSON.message 
+                        ? xhr.responseJSON.message 
+                        : 'An error occurred: ' + status;
+                    
+                    var html = '<div class="error">' + 
+                        '<p><strong>Error:</strong> ' + errorMsg + '</p>';
+                        
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        html += '<ul>';
+                        for (var field in xhr.responseJSON.errors) {
+                            html += '<li>' + xhr.responseJSON.errors[field] + '</li>';
+                        }
+                        html += '</ul>';
+                    }
+                    
+                    html += '<p><strong>Status:</strong> ' + xhr.status + '</p>';
+                    html += '<p><strong>Response:</strong> ' + xhr.responseText + '</p>';
+                    html += '</div>';
+                    
+                    $('#response').html(html);
+                }
+            });
+        });
+    });
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        button:hover { background: #0056b3; }
+        .error { 
+            background: #ffebee; 
+            border-left: 4px solid #f44336; 
+            padding: 10px; 
+            margin: 10px 0;
+        }
+        .success { 
+            background: #e8f5e9; 
+            border-left: 4px solid #4caf50; 
+            padding: 10px; 
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login Test</h1>
+    
+    <form id="login-form">
+        <div class="form-group">
+            <label for="username">Username or Email:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <input type="hidden" name="csrf_token" value="test_token">
+        
+        <button type="submit">Login</button>
+    </form>
+    
+    <div id="response"></div>
+    
+    <h3>Test Users:</h3>
+    <ul>
+        <li><strong>Username:</strong> testlogin, <strong>Password:</strong> Test@1234</li>
+        <li><strong>Username:</strong> testuser, <strong>Password:</strong> (check your test data)</li>
+    </ul>
+</body>
+</html>

@@ -28,19 +28,20 @@ $memes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <div class="topbar">
             <h2>Zedmemes</h2>
+            <div class="second-bar">
+                <div class="profileItems" style="">
+                    <a href="portfolio.php" class="cta-button">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="../handlers/logout_handler.php" class="cta-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="second-bar">
-        <div class="row column text-center">
-            <a href="portfolio.php" class="cta-button">
-                <i class="fas fa-user"></i>
-            </a>
-            <a href="../handlers/logout_handler.php" class="cta-button">
-                <i class="fas fa-sign-out-alt"></i>
-            </a>
-        </div>
-    </div>
+   
 
     <main>
         <?php foreach ($memes as $meme): ?>

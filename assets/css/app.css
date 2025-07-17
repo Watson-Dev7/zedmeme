@@ -1,0 +1,330 @@
+/* Base Styles */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --light-gray: #f8f9fa;
+    --medium-gray: #e9ecef;
+    --dark-gray: #343a40;
+    --text-color: #212529;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styles */
+.topbar {
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profileItems {
+    display: flex; 
+    gap:10px
+}
+
+.topbar h2 {
+    margin: 0;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.second-bar {
+    background-color: white;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem 2rem;
+}
+
+/* Meme Card */
+.meme-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.meme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.meme-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.meme-header .profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.meme-header span {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.meme-image {
+    width: 100%;
+    max-height: 600px;
+    object-fit: contain;
+    display: block;
+    background-color: #f8f9fa;
+}
+
+/* Reaction Buttons */
+.reaction-container {
+    display: flex;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.cta-button {
+    background: none;
+    border: none;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.cta-button i {
+    margin-right: 5px;
+    font-size: 1.1rem;
+}
+
+.cta-button:hover {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+}
+
+.cta-button.reaction-btn.active {
+    color: var(--primary-color);
+}
+
+/* Comment Section */
+.comment-section {
+    padding: 0 1rem 1rem;
+}
+
+.comment-form {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.comment-form textarea {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 20px;
+    resize: none;
+    height: 40px;
+    transition: height 0.2s ease;
+    font-family: inherit;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    height: 80px;
+}
+
+.comment-form button {
+    margin-left: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.comment-form button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Comments List */
+.comments-list {
+    margin-top: 1rem;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 0.75rem;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+    background: var(--light-gray);
+    padding: 0.75rem;
+    border-radius: 0 15px 15px 15px;
+    font-size: 0.9rem;
+}
+
+.comment-username {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--dark-gray);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .meme-card {
+        border-radius: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .reaction-container {
+        justify-content: space-around;
+    }
+    
+    .cta-button {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+/* Error message styling */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px 15px;
+    margin: 1rem;
+    border-radius: var(--border-radius);
+    display: none;
+    font-size: 0.9rem;
+}
+
+.error-message.error {
+    display: block;
+}
+
+/* Loading state */
+.show-loading {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Form styling */
+.formCard {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.translucent-form-overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.translucent-form-overlay h3 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    outline: none;
+}
+
+/* Button styling */
+.button {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Sign up link */
+.text-center {
+    text-align: center;
+    margin-top: 15px;
+    color: #fff;
+}
+
+.text-center a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}

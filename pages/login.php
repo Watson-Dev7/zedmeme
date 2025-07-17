@@ -7,11 +7,23 @@
     <title>Login | ZedMemes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
     <link rel="stylesheet" href="../assets/css/app.css">
+    <style>
+        body {
+            background: #2c3e50;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .error-message {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="formCard">
         <div class="translucent-form-overlay">
-            <form id="login-form">
+            <form id="login-form" method="POST" action="../handlers/login_handler.php">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                 <h3>Log in</h3>
                 
                 <div id="login-error" class="error-message"></div>
