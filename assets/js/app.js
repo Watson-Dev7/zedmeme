@@ -23,8 +23,9 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    // Redirect on success
-                    window.location.href = 'blog-simple.php';
+                    // Redirect on success - use the URL provided by the server or default to blog.php
+                    const redirectUrl = response.data && response.data.redirect ? response.data.redirect : 'blog.php';
+                    window.location.href = redirectUrl;
                 } else {
                     // Show error message
                     $('#login-error')

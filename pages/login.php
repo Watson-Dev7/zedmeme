@@ -1,4 +1,19 @@
-<?php require_once '../includes/auth_check.php'; ?>
+<?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    $sessionPath = __DIR__ . '/../../tmp/sessions';
+    if (!file_exists($sessionPath)) {
+        mkdir($sessionPath, 0777, true);
+    }
+    session_save_path($sessionPath);
+    session_start();
+}
+
+// Generate CSRF token if it doesn't exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +37,9 @@
 <body>
     <div class="formCard">
         <div class="translucent-form-overlay">
-            <form id="login-form" method="POST" action="../handlers/login_handler.php">
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+            <form id="login-form" method="POST" action="../handlers/login_debug.php">
                 <h3>Log in</h3>
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                 
                 <div id="login-error" class="error-message"></div>
                 

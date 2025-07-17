@@ -89,7 +89,7 @@ try {
 
     // Return success response
     sendResponse(true, 'Login successful', [
-        'redirect' => 'blog-simple.php'
+        'redirect' => 'blog.php'
     ]);
 
 } catch (Throwable $e) {

@@ -11,9 +11,20 @@ ob_start();
 // Set JSON header
 header('Content-Type: application/json');
 
+// Set custom session path
+$sessionPath = __DIR__ . '/../../tmp/sessions';
+if (!file_exists($sessionPath)) {
+    mkdir($sessionPath, 0777, true);
+}
+
+// Set session configuration
+ini_set('session.save_path', $sessionPath);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
+
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
-    session_save_path('/tmp');
     session_start();
 }
 
@@ -68,7 +79,7 @@ try {
 
     // Find user by username or email
     $stmt = $pdo->prepare("
-        SELECT id, username, email, password, first_name, last_name 
+        SELECT id, username, email, password
         FROM users 
         WHERE username = :username OR email = :username
         LIMIT 1
@@ -88,8 +99,14 @@ try {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['email'] = $user['email'];
-    $_SESSION['first_name'] = $user['first_name'];
-    $_SESSION['last_name'] = $user['last_name'];
+    
+    // Set optional fields if they exist
+    $optionalFields = ['first_name', 'last_name', 'profile_image'];
+    foreach ($optionalFields as $field) {
+        if (isset($user[$field])) {
+            $_SESSION[$field] = $user[$field];
+        }
+    }
 
     // Regenerate session ID to prevent session fixation
     session_regenerate_id(true);
@@ -97,9 +114,9 @@ try {
     // Log successful login
     error_log("User {$user['username']} (ID: {$user['id']}) logged in successfully");
 
-    // Return success response
+    // Return success response with redirect to blog.php
     sendJsonResponse(true, 'Login successful', [
-        'redirect' => 'blog-simple.php'
+        'redirect' => '../pages/blog.php'
     ]);
 
 } catch (PDOException $e) {

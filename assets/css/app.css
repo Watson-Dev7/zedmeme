@@ -57,16 +57,125 @@ main {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 1rem 2rem;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 200px);
+}
+
+/* Error and Empty States */
+.error-message,
+.no-memes {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.error-message i,
+.no-memes i {
+    font-size: 3rem;
+    color: #dc3545;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.no-memes i {
+    color: #6c757d;
+}
+
+.debug-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8d7da;
+    border-radius: 4px;
+    color: #842029;
+    font-family: monospace;
+    font-size: 0.9rem;
+    text-align: left;
+    word-break: break-word;
 }
 
 /* Meme Card */
 .meme-card {
     background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     margin-bottom: 2rem;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    position: relative;
+}
+
+/* Header with user info */
+.meme-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    position: relative;
+}
+
+.meme-header .profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.meme-header .username {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+    margin-right: 8px;
+}
+
+.meme-header .post-time {
+    color: #6c757d;
+    font-size: 13px;
+    margin-left: auto;
+}
+
+/* Meme title */
+.meme-title {
+    padding: 0 16px 10px;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* Meme image container */
+.meme-image-container {
+    background: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 600px;
+    overflow: hidden;
+}
+
+.meme-image {
+    max-width: 100%;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.meme-image:hover {
+    transform: scale(1.02);
+}
+
+.meme-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
 .meme-card:hover {
@@ -77,8 +186,9 @@ main {
 .meme-header {
     display: flex;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--medium-gray);
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fff;
 }
 
 .meme-header .profile {
@@ -87,11 +197,14 @@ main {
     border-radius: 50%;
     object-fit: cover;
     margin-right: 12px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .meme-header span {
     font-weight: 600;
-    color: var(--dark-gray);
+    color: #333;
+    font-size: 15px;
 }
 
 .meme-image {
@@ -99,85 +212,436 @@ main {
     max-height: 600px;
     object-fit: contain;
     display: block;
-    background-color: #f8f9fa;
+    background-color: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.meme-image:hover {
+    opacity: 0.95;
 }
 
 /* Reaction Buttons */
 .reaction-container {
     display: flex;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--medium-gray);
+    padding: 8px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fff;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.reaction-container .cta-button {
+    flex: 1 0 auto;
+    min-width: 80px;
+    margin: 2px;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    color: #495057;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reaction-container .cta-button i {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.reaction-container .cta-button:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
+.reaction-container .cta-button.active {
+    color: #4361ee;
+    background: #eef2ff;
+}
+
+/* Like button specific */
+.reaction-container .cta-button[data-action="like"]:hover,
+.reaction-container .cta-button[data-action="like"].active {
+    color: #ff4444;
+    background: #ffebee;
+}
+
+/* Download button specific */
+.reaction-container .cta-button[data-action="download"]:hover,
+.reaction-container .cta-button[data-action="download"].active {
+    color: #00c851;
+    background: #e8f5e9;
+}
+
+/* Copy link button */
+.reaction-container .cta-button.copy-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.reaction-container .cta-button.copy-link[data-copied="true"] {
+    color: #fff;
+    background: #28a745;
+}
+
+.reaction-container .cta-button.copy-link[data-copied="true"] .button-text::after {
+    content: '✓ Copied!';
+    margin-left: 8px;
+}
+
+/* Comment toggle button */
+.reaction-container .cta-button.comment-toggle {
+    display: none; /* Hidden by default, shown on mobile */
+}
+
+@media (max-width: 600px) {
+    .reaction-container .cta-button {
+        min-width: 60px;
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+    
+    .reaction-container .cta-button .button-text {
+        display: none;
+    }
+    
+    .reaction-container .cta-button i {
+        margin-right: 0;
+    }
 }
 
 .cta-button {
     background: none;
     border: none;
-    color: var(--dark-gray);
+    color: #666;
     font-size: 0.9rem;
     cursor: pointer;
-    padding: 0.5rem 1rem;
+    padding: 8px 14px;
     border-radius: 20px;
-    margin-right: 0.5rem;
+    margin-right: 8px;
     display: flex;
     align-items: center;
     transition: all 0.2s ease;
+    font-weight: 500;
 }
 
 .cta-button i {
-    margin-right: 5px;
-    font-size: 1.1rem;
+    margin-right: 6px;
+    font-size: 16px;
 }
 
 .cta-button:hover {
-    background-color: var(--light-gray);
-    color: var(--primary-color);
+    background-color: #f5f5f5;
+    color: #4361ee;
+    transform: scale(1.05);
 }
 
 .cta-button.reaction-btn.active {
-    color: var(--primary-color);
+    color: #4361ee;
+    background-color: #eef2ff;
+}
+
+/* Like button specific */
+.cta-button[data-action="like"]:hover,
+.cta-button[data-action="like"].active {
+    color: #ff4444;
+    background-color: #ffebee;
+}
+
+/* Download button specific */
+.cta-button[data-action="download"]:hover,
+.cta-button[data-action="download"].active {
+    color: #00c851;
+    background-color: #e8f5e9;
+}
+
+/* Copy link button specific */
+.cta-button.copy-link:hover {
+    color: #aa66cc;
+    background-color: #f3e5f5;
 }
 
 /* Comment Section */
 .comment-section {
-    padding: 0 1rem 1rem;
+    padding: 0 16px 16px;
+    background-color: #fff;
+    display: none; /* Hidden by default, shown when clicking comment button */
+}
+
+.comment-section.expanded {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.comment-form .form-group {
+    display: flex;
+    margin: 12px 0 0;
+    position: relative;
+}
+
+.comment-form input[type="text"] {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 14px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    height: 40px;
+}
+
+.comment-form input[type="text"]:focus {
+    outline: none;
+    border-color: #4361ee;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+}
+
+.comment-form button[type="submit"] {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    background: #4361ee;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 0 16px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+}
+
+.comment-form input:valid + button[type="submit"] {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.comment-form button[type="submit"]:hover {
+    background: #3a56d4;
+}
+
+/* Comments list */
+.comments-list {
+    margin-top: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #eee;
+}
+
+.comment-content {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 10px 14px;
+    border-radius: 0 16px 16px 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.comment-username {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
+    display: block;
+}
+
+.comment-text {
+    color: #444;
+    word-break: break-word;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.comment-time {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+    display: block;
+    text-align: right;
+}
+
+/* Loading state */
+.loading-comments {
+    color: #6c757d;
+    font-size: 14px;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.loading-comments i {
+    margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .comment-section {
+        padding: 0 12px 12px;
+    }
+    
+    .comment {
+        margin-bottom: 10px;
+    }
+    
+    .comment-content {
+        padding: 8px 12px;
+    }
+    
+    .reaction-container .cta-button.comment-toggle {
+        display: flex;
+    }
+    
+    .comment-section:not(.expanded) {
+        display: none;
+    }
 }
 
 .comment-form {
     display: flex;
-    margin-bottom: 1rem;
+    margin: 12px 0 16px;
+    position: relative;
 }
 
 .comment-form textarea {
     flex: 1;
-    padding: 0.75rem;
-    border: 1px solid var(--medium-gray);
-    border-radius: 20px;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
     resize: none;
-    height: 40px;
-    transition: height 0.2s ease;
+    height: 44px;
+    transition: all 0.3s ease;
     font-family: inherit;
+    font-size: 14px;
+    background-color: #f8f9fa;
+    box-shadow: none;
 }
 
 .comment-form textarea:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: #4361ee;
     height: 80px;
+    background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
 }
 
 .comment-form button {
-    margin-left: 0.5rem;
-    background-color: var(--primary-color);
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    background-color: #4361ee;
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 0 1.5rem;
+    padding: 6px 16px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+}
+
+.comment-form textarea:focus + button,
+.comment-form textarea:not(:placeholder-shown) + button {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
 }
 
 .comment-form button:hover {
-    background-color: var(--secondary-color);
+    background-color: #3a56d4;
+    transform: translateY(-1px);
+}
+
+/* Comments List */
+.comments-list {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.comment-content {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 10px 14px;
+    border-radius: 0 16px 16px 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.comment-username {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
+    display: block;
+}
+
+.comment-text {
+    color: #444;
+    word-break: break-word;
+}
+
+.comment-time {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+    display: block;
+    text-align: right;
 }
 
 /* Comments List */
@@ -217,16 +681,35 @@ main {
 @media (max-width: 768px) {
     .meme-card {
         border-radius: 0;
-        margin-bottom: 1rem;
+        margin-bottom: 12px;
+        border-left: none;
+        border-right: none;
     }
     
     .reaction-container {
-        justify-content: space-around;
+        justify-content: space-between;
+        padding: 8px 12px;
     }
     
     .cta-button {
         flex: 1;
         justify-content: center;
+        font-size: 13px;
+        padding: 6px 8px;
+        margin: 0 2px;
+    }
+    
+    .cta-button i {
+        margin-right: 4px;
+    }
+    
+    .comment-section {
+        padding: 0 12px 12px;
+    }
+    
+    .comment-form textarea {
+        padding: 10px 14px;
+        font-size: 13px;
     }
 }
 
