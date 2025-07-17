@@ -1,0 +1,162 @@
+/* Base Styles */
+body {
+    padding-top: 20px;
+    background-color: #720303;
+}
+
+/* Card Styles */
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Dropzone Styles */
+.dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.dropzone.active {
+    border-color: #1779ba;
+    background-color: #f7f7f7;
+    animation: pulseDropzone 0.5s;
+}
+
+.preview-container img {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+}
+
+@keyframes pulseDropzone {
+    0% { box-shadow: 0 0 0 0 #1779ba44; }
+    70% { box-shadow: 0 0 10px 10px #1779ba22; }
+    100% { box-shadow: 0 0 0 0 #1779ba00; }
+}
+
+/* Button Group Styles */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.button-group .button {
+    margin-bottom: 5px;
+    flex-grow: 1;
+}
+
+/* Button Animations */
+.button {
+    transition: transform 0.2s, background-color 0.2s;
+    border-radius: 20px;
+}
+
+.button:hover, .button:focus {
+    transform: scale(1.07);
+    background-color: #1779ba;
+    color: #fff;
+}
+
+/* Alert Styles */
+.alert {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 15px;
+    border-radius: 4px;
+    color: white;
+    min-width: 220px;
+    animation: slideInRight 0.4s, fadeOut 0.3s 2.7s;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.alert.success {
+    background-color: #3adb76;
+}
+
+.alert.error, .alert.alert {
+    background-color: #cc4b37;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Landing Screen Styles */
+.landing-screen {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.zedmemes-title {
+    font-size: 6cap;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.landing-actions {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    justify-content: center;
+}
+
+.landing-actions .button {
+    font-size: 1.3rem;
+    padding: 0.75em 2em;
+    border-radius: 2em;
+    box-shadow: 0 2px 12px #1779ba44;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.landing-actions .button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 24px #3adb7644;
+}
+
+
+/* Mobile-first adjustments */
+@media screen and (max-width: 39.9375em) {
+    .top-bar .menu li {
+        display: block;
+        width: 100%;
+    }
+    
+    .button-group .button {
+        width: 100%;
+    }
+}
